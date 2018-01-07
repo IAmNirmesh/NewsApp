@@ -1,6 +1,7 @@
 package rahul.nirmesh.newsapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import rahul.nirmesh.newsapp.Interface.IconBetterIdeaService;
 import rahul.nirmesh.newsapp.Interface.ItemClickListener;
+import rahul.nirmesh.newsapp.ListNews;
 import rahul.nirmesh.newsapp.R;
 import rahul.nirmesh.newsapp.common.Common;
 import rahul.nirmesh.newsapp.model.IconBetterIdea;
@@ -37,6 +39,8 @@ class ListSourceViewHolder extends RecyclerView.ViewHolder implements View.OnCli
 
         source_name = itemView.findViewById(R.id.source_name);
         source_image = itemView.findViewById(R.id.source_image);
+
+        itemView.setOnClickListener(this);
     }
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
@@ -97,7 +101,12 @@ public class ListSourceAdapter extends RecyclerView.Adapter<ListSourceViewHolder
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-
+                Intent intent = new Intent(context, ListNews.class);
+                intent.putExtra("source", webSite.getSources().get(position).getId());
+                intent.putExtra("sortBy", webSite.getSources().get(position).getSortBysAvailable().get(0));
+                intent.putExtra("sortBy", "top");
+                intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
     }
